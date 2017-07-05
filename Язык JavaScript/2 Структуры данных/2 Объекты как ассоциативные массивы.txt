@@ -19,7 +19,8 @@ delete person.age
 Проверка на наличие свойства с заданным именем:
 'name' in person // => true
 ИЛИ 
-if (obj.prop !== undefined) // но если свойство prop 			//существует и его значение 			//undefined, то неверный 			//результат
+if (obj.prop !== undefined) 
+// но если свойство prop существует и его значение undefined, то неверный результат
 
 person['name'] = 'Саня'
 

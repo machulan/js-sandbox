@@ -1,11 +1,11 @@
-﻿“ернарный условный оператор (cond? if-true : if-false)
+﻿Тернарный условный оператор (cond? if-true : if-false)
 
 
 String(value)
 Number(value)
 Boolean(value)
 
-//÷» Ћџ » ѕ–≈–џ¬јЌ»я јЌјЋќ√»„Ќџ C++
+//ЦИКЛЫ И ПРЕРЫВАНИЯ АНАЛОГИЧНЫ C++
 
 do {
 } while (cond);
@@ -16,7 +16,7 @@ while (cond) {
 for (var i = 0; i < 3; i++) {
 }
 
-for .. in // дл¤ объекта
+for .. in // для объекта
 
 switch(x) {
 	case 'value1':

@@ -1,0 +1,138 @@
+КРАТКО
+
+На уровне ОБЪЕКТОВ наследование реализуется через __proto__.
+
+1 Для наследования нужно, чтобы "склад методов потомка" (Child.prototype) наследовал от "склада методов родителей" (Parent.prototype).
+Это можно сделать при помощи Object.create:
+
+Rabbit.prototype = Object.create(Animal.prototype);
+
+2 Для того, чтобы наследник создавался так же, как и родитель, он вызывает конструктор родителя в своём контексте, используя apply(this, arguments), вот так:
+
+function Rabbit(...) {
+  Animal.apply(this, arguments);
+}
+
+3 При переопределении метода родителя в потомке, к исходному методу можно обратиться, взяв его напрямую из прототипа:
+
+Rabbit.prototype.run = function() {
+  var result = Animal.prototype.run.apply(this, ...);
+  // result -- результат вызова метода родителя
+}
+
+4 СТРУКТУРА НАСЛЕДОВАНИЯ:
+	1) Класс-родитель
+	1.1) Конструктор родителя пишет свойства конкретного объекта
+		function Parent() {}
+	1.2) Методы хранятся в прототипе
+		Parent.prototype.methodName = function() {}
+	2) Класс-потомок
+	2.1) Конструктор потомка
+		function Child(){ 
+			// вызов конструктора родителя
+			Parent.apply(this, arguments) 
+		}
+	2.2) Наследование 
+		Child.prototype = Object.create(Parent.prototype)
+	2.3) Сохранение 
+		Child.prototype.constructor = Child
+	2.4) Методы потомка
+		Child.prototype.methodName = function() {
+		// если переопределяет, то вызов метода родителя
+			Parent.prototype.methodName.apply(this, arguments) 
+		}
+	2.5) Создаем объекты
+		var child = new Child()
+
+/////////////////////////////////////////////////////////////////
+НАСЛЕДОВАНИЕ Array ОТ Object
+
+console.dir для доступа к свойствам
+
+1 Методы массивов Array хранятся в Array.prototype.
+2 Array.prototype имеет прототипом Object.prototype.
+
+/////////////////////////////////////////////////////////////////
+НАСЛЕДОВАНИЕ В НАШИХ КЛАССАХ 
+
+СПОСОБ 1 (КРОМЕ IE10-)
+Rabbit.prototype.__proto__ = Animal.prototype;
+
+СПОСОБ 2 (КРОССБРАУЗЕРНЫЙ) ++ РЕКОМЕНДУЕМЫЙ ++
+Rabbit.prototype = Object.create(Animal.prototype);
+
+Явно сохранить свойство constructor:
+Rabbit.prototype.constructor = Rabbit;
+
+/////////////////////////////////////////////////////////////////
+ПОЛНЫЙ КОД НАСЛЕДОВАНИЯ
+
+// 1. Конструктор Animal
+function Animal(name) {
+  this.name = name;
+  this.speed = 0;
+}
+
+// 1.1. Методы -- в прототип
+
+Animal.prototype.stop = function() {
+  this.speed = 0;
+  alert( this.name + ' стоит' );
+}
+
+Animal.prototype.run = function(speed) {
+  this.speed += speed;
+  alert( this.name + ' бежит, скорость ' + this.speed );
+};
+
+// 2. Конструктор Rabbit
+function Rabbit(name) {
+  this.name = name;
+  this.speed = 0;
+}
+
+// 2.1. Наследование
+Rabbit.prototype = Object.create(Animal.prototype);
+Rabbit.prototype.constructor = Rabbit;
+
+// 2.2. Методы Rabbit
+Rabbit.prototype.jump = function() {
+  this.speed++;
+  alert( this.name + ' прыгает, скорость ' + this.speed );
+}
+
+То есть:
+1. Конструктор Animal
+	1.1. Методы -- в прототип
+2. Конструктор Rabbit
+	2.1. Наследование
+	2.2. Методы Rabbit
+
+/////////////////////////////////////////////////////////////////
+ВЫЗОВ КОНСТРУКТОРА РОДИТЕЛЯ
+
+function Rabbit(name) {
+  Animal.apply(this, arguments);
+}
+ИЛИ 
+function Rabbit(name) {
+  Animal.call(this, name);
+}
+НО apply НАДЕЖНЕЕ.
+
+/////////////////////////////////////////////////////////////////
+ПЕРЕОПРЕДЕЛЕНИЕ МЕТОДА
+
+Rabbit.prototype.run = function(speed) {
+  this.speed++;
+  this.jump();
+};
+
+/////////////////////////////////////////////////////////////////
+ВЫЗОВ МЕТОДА РОДИТЕЛЯ ВНУТРИ СВОЕГО
+
+Rabbit.prototype.run = function() {
+   // вызвать метод родителя, передав ему текущие аргументы
+   Animal.prototype.run.apply(this, arguments);
+   this.jump();
+}

@@ -1,0 +1,42 @@
+Два способа создать объект:
+
+obj = new Object();
+obj = {};
+
+
+var person = {};
+
+Запись:
+person.name = 'Никита';
+person.age = 20;
+
+Обращение:
+n = person.name
+
+Удаление:
+delete person.age
+
+Проверка на наличие свойства с заданным именем:
+'name' in person // => true
+ИЛИ 
+if (obj.prop !== undefined) // но если свойство prop 			//существует и его значение 			//undefined, то неверный 			//результат
+
+person['name'] = 'Саня'
+
+
+ЛИТЕРАЛЬНЫЙ СИНТАКСИС
+
+{ ключ1: значение1, ключ2: значение2, ... }
+
+var menuSetup = {
+  width: 300,
+  'height': 200,
+  "мама мыла раму": true,
+ size: {
+    top: 90,
+    middle: 60,
+    bottom: 90
+  }
+};
+
+

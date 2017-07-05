@@ -1,0 +1,29 @@
+str = 'asd'
+str.charAt(1) // 's'
+
+str.indexOf(str, begin) // pos
+
+~str.indexOf(str, begin) // -1 => 0
+
+SUBSTRINGS
+
+str.substring(begin, end) // [begin, end-1]
+str.substr(begin, length) // 
+str.slice(start [, end]) // end < 0 => like in python
+
+
+ENCODINGS
+
+Unicode
+
+String.fromCharCode(code) // => str
+str.charCodeAt(pos) // code of symbol at pos
+
+HTML : 
+in dec: &#char; // 'a' (1072) => &#1072;
+in hex: &#xchar; // &#x2702; &#xBD; &#xBE;
+
+
+COMPARISON
+
+str.localeCompare(str2) // -1, 0, 1

@@ -1,0 +1,86 @@
+Наследование – это создание новых «классов» на основе существующих.
+///////////////////////////////////////////////////////////////////
+КРАТКО
+
+var privateProperty;
+this.publicProperty = ...;
+this._protectedProperty = ...
+
+
+///////////////////////////////////////////////////////////////////
+НАСЛЕДОВАНИЕ ОТ Machine
+
+++ Базовый класс ++
+function Machine() {
+  var enabled = false;
+
+  this.enable = function() {
+    enabled = true;
+  };
+
+  this.disable = function() {
+    enabled = false;
+  };
+}
+
+++ Наследник ++
+function CoffeeMachine(power) {
+  Machine.call(this); // наследовать Machine
+
+  var waterAmount = 0;
+
+  this.setWaterAmount = function(amount) {
+    waterAmount = amount;
+  };
+}
+
+////////////////////////////////////////////////////////////////////
+ЗАЩИЩЕННЫЕ СВОЙСТВА
+
+Наследник не имеет доступа к приватным свойствам родителя.
+
+Чтобы наследник имел доступ к свойству, оно должно быть записано в this.
+
+ this._enabled = false; // вместо var enabled
+
+////////////////////////////////////////////////////////////////////
+ПЕРЕНОС СВОЙСТВА В ЗАЩИЩЕННЫЕ
+
+function Machine(power) {
+	this._power = power; // (1)
+...
+}
+function CoffeeMachine(power) {
+	Machine.apply(this, arguments); // (2)
+	// or Machine.call(this, power)
+...
+}
+
+////////////////////////////////////////////////////////////////////
+ПЕРЕОПРЕДЕЛЕНИЕ МЕТОДОВ
+
+Наследуем от Machine холодильник Fridge, микроволновку MicroOven
+
+function Fridge(power, temperature) {
+  Machine.apply(this, arguments);
+  // ...
+}
+
+++ Переопределение enable ++
+function CoffeeMachine(power) {
+  Machine.apply(this, arguments);
+
+  var parentEnable = this.enable; // (1)
+  this.enable = function() { // (2)
+      parentEnable.call(this); // (3)
+      this.run(); // (4)
+    }
+  ...
+}
+
+Общая схема переопределения метода (по строкам выделенного фрагмента кода):
+
+1 Копируем доставшийся от родителя метод this.enable в переменную, например parentEnable.
+2 Заменяем this.enable на свою функцию...
+3 ...Которая по-прежнему реализует старый функционал через вызов parentEnable.
+4 ...И в дополнение к нему делает что-то своё, например запускает приготовление кофе.

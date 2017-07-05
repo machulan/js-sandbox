@@ -1,0 +1,42 @@
+Тернарный условный оператор (cond? if-true : if-false)
+
+
+String(value)
+Number(value)
+Boolean(value)
+
+//ЦИКЛЫ И ПРЕРЫВАНИЯ АНАЛОГИЧНЫ C++
+
+do {
+} while (cond);
+
+while (cond) {
+};
+
+for (var i = 0; i < 3; i++) {
+}
+
+for .. in // для объекта
+
+switch(x) {
+	case 'value1':
+	break;
+	case 'value2':
+	break;
+	default:
+	
+}
+
+break
+continue
+
+GOTO!
+//в ближайший внешний цикл с меткой
+break labelName;
+labelName: // перейдет сюда по достижении break labelName
+
+// на следующую итерацию цикла с меткой
+continue labelName;
+labelName: // перейдет сюда по достижении continue labelName
+
+

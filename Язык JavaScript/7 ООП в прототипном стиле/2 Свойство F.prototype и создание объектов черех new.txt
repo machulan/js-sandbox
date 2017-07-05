@@ -1,0 +1,49 @@
+СВОЙСТВО F.prototype
+
+СПОСОБ 1 (не работает в IE10-):
+
+var animal = {
+  eats: true
+};
+
+function Rabbit(name) {
+  this.name = name;
+  this.__proto__ = animal;
+}
+
+СПОСОБ 2 (КРОССБРАУЗЕРНЫЙ):
+
+Чтобы новым объектам автоматически ставить прототип, конструктору ставится свойство prototype.
+
+При создании объекта через new, в его прототип __proto__ записывается ссылка из prototype функции-конструктора.
+
+function Rabbit(name) {
+  this.name = name;
+}
+
+Rabbit.prototype = animal;
+
+var rabbit = new Rabbit('Крроль') // rabbit.__proto__ = animal
+alert( rabbit.eats ); // true
+
+//////////////////////////////////////////////////////////////////////
+СВОЙСТВО prototype ИМЕЕТ СМЫСЛ ТОЛЬКО У КОНСТРУКТОРА
+
+ЕГО ЕДИНСТВЕННОЕ НАЗНАЧЕНИЕ - УКАЗЫВАТЬ __proto__ ДЛЯ НОВЫХ ОБЪЕКТОВ.
+
+ЗНАЧЕНИЕМ prototype МОЖЕТ БЫТЬ ТОЛЬКО ОБЪЕКТ.
+
+//////////////////////////////////////////////////////////////////////
+СВОЙСТВО constructor
+
+У каждой функции по умолчанию уже есть свойство prototype.
+
+function Rabbit() {}
+
+Rabbit.prototype = {
+  constructor: Rabbit
+};
+
+ИСПОЛЬЗОВАНИЕ:
+var rabbit = new Rabbit("Кроль");
+var rabbit2 = new rabbit.constructor("Крольчиха");

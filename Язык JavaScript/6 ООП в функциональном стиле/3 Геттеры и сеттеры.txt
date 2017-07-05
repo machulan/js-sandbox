@@ -1,0 +1,43 @@
+///////////////////////////////////////////////////////////////
+СЕТТЕРЫ
+
+function CoffeeMachine(power, capacity) {
+  var waterAmount = 0;
+
+  // "умная" установка свойства
+  this.setWaterAmount = function(amount) {
+    if (amount < 0) {
+      throw new Error("Значение должно быть положительным");
+    }
+    if (amount > capacity) {
+      throw new Error("Нельзя залить воды больше, чем " + capacity);
+    }
+
+    waterAmount = amount;
+  };
+}
+
+/////////////////////////////////////////////////////////////////
+ГЕТТЕРЫ
+
+  this.getWaterAmount = function() {
+    return waterAmount;
+  };
+
+//////////////////////////////////////////////////////////////////
+ЕДИНЫЙ ГЕТТЕР-СЕТТЕР
+
+this.waterAmount = function(amount) {
+    // вызов без параметра, значит режим геттера, возвращаем свойство
+    if (!arguments.length) return waterAmount;
+
+    // иначе режим сеттера
+    if (amount < 0) {
+      throw new Error("Значение должно быть положительным");
+    }
+    if (amount > capacity) {
+      throw new Error("Нельзя залить воды больше, чем " + capacity);
+    }
+
+    waterAmount = amount;
+  };
